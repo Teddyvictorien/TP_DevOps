@@ -28,3 +28,19 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_NAME }}/tp-devops:${{ github.sha }}
         file: ./Dockerfile
+   
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{steps.deploy-to-webapp.outputs.webapp-url}}
+    steps :
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: 'tvictorien'
+        slot-name: 'production'
+        publish-profile: ${{secrets.AZURE_SETTINGS}}
+        images: ${{ secrets.DOCKERHUB_NAME }}/tp-devops:${{ github.sha }}
