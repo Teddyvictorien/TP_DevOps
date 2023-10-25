@@ -52,7 +52,7 @@ export default function Contact() {
                     {errors.email && <p>{errors.email.message}</p>}
                 </div>
                 <div>
-                    <input type="text" placeholder="Message" {...register("message")}/>
+                    <textarea  placeholder="Message" {...register("message")}/>
                     {errors.message && <p>{errors.message.message}</p>}
                 </div>
                 <div>
